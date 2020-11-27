@@ -1,0 +1,93 @@
+// 旋转角度
+.transformRotate(@deg) {
+    transform: rotate(@deg);
+    /* IE 9 */
+    -ms-transform: rotate(@deg);
+    /* Firefox */
+    -moz-transform: rotate(@deg);
+    /* Safari 和 Chrome */
+    -webkit-transform: rotate(@deg);
+    -o-transform: rotate(@deg);
+}
+
+// 文本不可复制
+.user-select(@value :none) {
+    /* Firefox私有属性 */
+    -moz-user-select: @value;
+    /* WebKit内核私有属性 */
+    -webkit-user-select: @value;
+    /* IE私有属性(IE10及以后) */
+    -ms-user-select: @value;
+    -khtml-user-select: @value;
+    /* KHTML内核私有属性 */
+    /* Opera私有属性 */
+    -o-user-select: @value;
+    /* CSS3属性 */
+    user-select: @value;
+}
+
+//滚动条的样式
+.scrollbars(@size, @foreground-color, @background-color: mix(@foreground-color, white, 50%)) {
+    ::-webkit-scrollbar {
+        width: @size;
+        height: @size;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: @size;
+        background: @foreground-color;
+        cursor: pointer;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: @background-color;
+        border-radius: 20px;
+    }
+
+    // For Internet Explorer
+    body {
+        scrollbar-face-color: @foreground-color;
+        scrollbar-track-color: @background-color;
+    }
+}
+
+//图标设置
+.custom-icon-set(@size) {
+    width: @size;
+    height: @size;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: inherit;
+    text-rendering: auto;
+}
+
+.custom-base-icon-image(@url) {
+    background: url("@{url}") no-repeat left center;
+    background-size: 100% 100%; //等比例缩小
+}
+
+// 垂直居中
+.translateYCenter() {
+    top: 50%;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+}
+
+.translateXCenter() {
+    left: 50%;
+    transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+}
+
+.clearfix() {
+    &::after {
+        clear: both;
+        content: ' ';
+        display: inline-block;
+        width: 0;
+        height: 0;
+        visibility: hidden;
+    }
+}

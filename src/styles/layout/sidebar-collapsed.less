@@ -1,0 +1,12 @@
+.sl-layout-container-wrapper.sidebar-collapsed {
+    .sl-layout-main-wrapper {
+        .sl-layout-sidebar-wrapper {
+            width: @sidebar-collapsed-width;
+        }
+
+        .sl-layout-content-wrapper {
+            width: calc(~"100% - @{sidebar-collapsed-width}");
+            margin-left: @sidebar-collapsed-width;
+        }
+    }
+}

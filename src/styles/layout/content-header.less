@@ -1,0 +1,68 @@
+@import '~@/styles/variables';
+
+.content-header-resue-tabset {
+    position: relative;
+
+    /deep/ .ant-tabs-bar {
+        margin: 0;
+
+        .ant-tabs-nav-container {
+            .ant-tabs-nav-wrap {
+                .ant-tabs-nav-scroll {
+                    .ant-tabs-nav {
+                        .ant-tabs-tab {
+                            border: 1px solid @tabset-border-color;
+                            border-right: none;
+                            border-radius: 0;
+                            transition: none;
+                            background-color: @tabs-bg-color;
+                            padding: 0;
+
+                            .tab-solt {
+                                padding: 0 16px 0 26px;
+
+                                &.tab-solt__dot {
+                                    &::before {
+                                        content: ' ';
+                                        width: 10px;
+                                        height: 10px;
+                                        display: inline-block;
+                                        border-radius: 50% 50%;
+                                        background-color: @tabs-dot-color;
+                                        position: absolute;
+                                        left: 10px;
+                                        top: 50%;
+                                        margin-top: -5px;
+                                    }
+                                }
+
+                                .close-handle {
+                                    color: @text-default;
+
+                                    &:hover {
+                                        color: @text-danger;
+                                    }
+                                }
+                            }
+
+                            &:last-child {
+                                border-right: 1px solid @tabset-border-color;
+                            }
+
+                            &.ant-tabs-tab-active {
+                                background-color: @tabs-active-bg-color;
+                                border-bottom: 1px solid @tabs-active-bg-color;
+
+                                .tab-solt__dot {
+                                    &::before {
+                                        background-color: @tabs-active-dot-color;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

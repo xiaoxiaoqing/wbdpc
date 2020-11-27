@@ -1,0 +1,110 @@
+.sl-layout-header {
+    padding: @header-padding;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+
+    .logo {
+        height: 100%;
+        float: left;
+        margin-right: 28px;
+        .logo-img {
+            float: left;
+            width: @logo-img-width;
+            height: @logo-img-height;
+            background: url('~@/assets/logo.png') no-repeat;
+            background-size: 100% 100%;
+            margin-top: 4px;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            width: auto;
+            float: left;
+            height: 100%;
+            line-height: @header-height;
+            font-size: @header-title-font-size;
+            color: @header-title-font-color;
+            margin-left: 10px;
+        }
+    }
+
+    .collapsed-handle {
+        float: left;
+        line-height: @header-height;
+        height: 100%;
+        margin-right: 20px;
+
+        .collapsed-btn {
+            margin-bottom: 16px;
+            background-color: #185EFE;
+            border: none;
+
+            .collapsed-icon {
+                color: #ffffff;
+            }
+        }
+    }
+
+    ul.header-menu-content,
+    ul.header-right-menu-content {
+        display: inline-block;
+        line-height: @header-height ;
+        outline: none;
+        white-space: nowrap;
+        box-shadow: none;
+        border: 0;
+
+        li.menu-item {
+            display: inline-block;
+            color: #ffffff;
+            background-color: transparent;
+            cursor: pointer;
+
+            .menu-submenu-title {
+                padding: 0 20px;
+            }
+
+            &.menu-item-selected {
+                background-color: @header-menu-item-active-bg;
+            }
+            &:hover{
+                background: rgba(0,0,0,.1);
+            }
+        }
+    }
+
+    ul.header-right-menu-content {
+        float: right;
+
+        .menu-submenu-title {
+            position: relative;
+
+            .badge {
+                position: absolute;
+                display: inline-block;
+                min-width: 32px;
+                height: 16px;
+                border-radius: 16px;
+                background: @danger;
+                color: #fff;
+                line-height: 16px;
+                text-align: center;
+                top: 50%;
+                margin-top: -16px;
+                margin-left: 12px;
+                font-size: 12px;
+            }
+        }
+    }
+
+    &::after {
+        clear: both;
+        content: ' ';
+        display: block;
+        width: 0;
+        height: 0;
+        visibility: hidden;
+    }
+}
