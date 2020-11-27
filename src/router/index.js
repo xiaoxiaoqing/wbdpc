@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/login'
-import Layout from '@/layout'
 import Home from '@/components/common/Home'
 import Dashboard from '@/components/page/Dashboard.vue'//系统首页消息处理中心
 import Promanage from '@/components/page/Promanage.vue'//项目管理
@@ -14,7 +13,8 @@ export default new Router({
     {
       path: '/',
       redirect: '/dashboard'
-    },{
+    },
+    {
       path: '/',
       name: 'Home',
       component: Home,
@@ -24,11 +24,13 @@ export default new Router({
           path: '/dashboard',
           component:Dashboard,
           meta: { title: '系统首页' }
-        },{
+        },
+        {
           path: '/promanage',
           component: Promanage,
-          meta: { title: '项目管理' }
-        },{
+          meta: { title: '项目列表' }
+        },
+        {
           path: '/userinfo',
           component: Userinfo,
           meta: { title: '人员信息' }

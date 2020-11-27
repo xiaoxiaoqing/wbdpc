@@ -9,10 +9,10 @@
       text-color="#fff"
       active-text-color="#ffd04b">
       <el-submenu index="1">
-        <template slot="title">
+        <!-- <template slot="title">
           <i class="el-icon-location"></i>
           <span>项目管理</span>
-        </template>
+        </template> -->
         <el-menu-item-group>
           <template slot="title">{{this.$store.state.count}}</template>
           <el-menu-item index="1-1">选项1</el-menu-item>

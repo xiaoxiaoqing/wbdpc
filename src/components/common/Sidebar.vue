@@ -23,7 +23,10 @@
                                 :index="subItem.index"
                                 :key="subItem.index"
                             >
-                                <template slot="title">{{ subItem.title }}</template>
+                                <template slot="title">
+                                  <i :class="subItem.icon"></i>
+                                  <span>{{ subItem.title }}</span>
+                                </template>
                                 <el-menu-item
                                     v-for="(threeItem,i) in subItem.subs"
                                     :key="i"
@@ -34,7 +37,10 @@
                                 v-else
                                 :index="subItem.index"
                                 :key="subItem.index"
-                            >{{ subItem.title }}</el-menu-item>
+                            >
+                              <i :class="subItem.icon"></i>
+                              <span slot="title">{{ subItem.title }}</span>
+                            </el-menu-item>
                         </template>
                     </el-submenu>
                 </template>
@@ -63,13 +69,42 @@ export default {
                 },
                 {
                     icon: 'el-icon-s-order',
-                    index: 'promanage',
+                    index: 'promanage-index',
                     title: '项目管理',
+                    subs: [
+                      {
+                            icon: 'el-icon-odometer',
+                            index: 'promanage',
+                            title: '项目列表'
+                        },
+                        {
+                            icon: 'el-icon-odometer',
+                            index: 'promanage2',
+                            title: '任务分配'
+                        },
+                        {
+                            icon: 'el-icon-user-solid',
+                            index: 'promanage3',
+                            title: '人员分配'
+                        }
+                    ]
                 },
                 {
                     icon: 'el-icon-s-custom',
-                    index: 'userinfo',
-                    title: '人员信息'
+                    index: 'userinfo-index',
+                    title: '人员信息',
+                    subs: [
+                        {
+                            icon: 'el-icon-user',
+                            index: 'userinfo',
+                            title: '基本信息'
+                        },
+                        {
+                            icon: 'el-icon-star-on',
+                            index: 'userinfo2',
+                            title: '评级信息'
+                        }
+                    ]
                 }
             ]
         };
