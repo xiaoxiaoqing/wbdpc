@@ -1,44 +1,150 @@
 <template>
-    <div>
-        <div class="crumbs">
+    <div class="userBaseInfo">
+        <!-- <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item>
                     <i class="el-icon-lx-cascades"></i> 外包人员信息
                 </el-breadcrumb-item>
             </el-breadcrumb>
-        </div>
+        </div> -->
         <div class="container">
             <div class="handle-box">
                 <label for="">公司名称</label>
-                <el-select v-model="query.company" filterable placeholder="请选择" class="handle-select mr10">
+                <el-select v-model="query.company" filterable placeholder="请选择" class="mr10">
                     <!-- <el-option key="1" label="广东省" value="广东省"></el-option>
                     <el-option key="2" label="湖南省" value="湖南省"></el-option> -->
                     <el-option key="-1" label="请选择" value=""></el-option>
                     <el-option v-for="(item,index) in companyArr" :key="index" :label="item.name" :value="item.id"></el-option>
                 </el-select>
                 <label for="">职位</label>
-                <el-select v-model="query.position" placeholder="请选择" class="handle-select mr10">
-                    <el-option key="1" label="前端" value="前端"></el-option>
-                    <el-option key="2" label="java" value="java"></el-option>
-                    <el-option key="3" label="测试" value="测试"></el-option>
+                <el-select v-model="query.position" placeholder="请选择" class="mr10">
+                    <el-option key="1" label="Java前端设计师" value="Java前端设计师"></el-option>
+                    <el-option key="2" label="java后台工程师" value="java后台工程师"></el-option>
+                    <el-option key="3" label="C#开发工程师" value="C#开发工程师"></el-option>
                 </el-select>
-                <label for="">时间段</label>
-                <!-- <el-input v-model="query.time" placeholder="请选择" class="handle-input mr10"></el-input> -->
-
-                <div class="handle-input mr10">
-                    <el-date-picker
-                    v-model="query.time"
-                    type="daterange"
-                    value-format="yyyy-MM-dd"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    >
-                    </el-date-picker>
-                </div>
+                
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
             </div>
-            <p>{{companyName}}</p>
             <el-table
+                :data="tableData"
+                ref="userTbale"
+                class="table"
+                max-height="500"
+                :show-header="false"
+                header-cell-class-name="table-header"> 
+                <el-table-column type="expand" prop="children" >
+                    <template slot-scope="scope">
+                        <el-table :data="scope.row.children"  size="mini" border>
+                            <el-table-column label="序号" type="index" width="50" fixed align="center">
+                            </el-table-column>
+                            <el-table-column prop="userName" label="人员姓名" width="100" align="center">
+                                <template slot-scope="scope">
+                                    <div v-if="!scope.row.newEdit">{{ scope.row.userName }}</div>
+                                    <div v-else>
+                                        <el-input v-model="scope.row.userName"></el-input>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="sex" label="性别" align="center" width="80">
+                                <template slot-scope="scope">
+                                    <div v-if="!scope.row.newEdit">{{ scope.row.sex=='0' ? '男':'女' }}</div>
+                                    <div v-else>
+                                       <el-select size="mini" v-model="scope.row.sex" placeholder="请选择">
+                                            <el-option key="1" label="男" value="0"></el-option>
+                                            <el-option key="2" label="女" value="1"></el-option>
+                                        </el-select>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="createtime" label="入所时间" align="center" width="150">
+                                <template slot-scope="scope">
+                                    <div v-if="!scope.row.newEdit">{{ scope.row.createtime }}</div>
+                                    <div v-else>
+                                        <el-date-picker
+                                            v-model="scope.row.createtime"
+                                            type="date"
+                                            placeholder="选择日期">
+                                        </el-date-picker>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="telnum" label="电话" align="center">
+                                <template slot-scope="scope">
+                                    <div v-if="!scope.row.isEdit">{{ scope.row.telnum }}</div>
+                                    <div v-else>
+                                        <el-input v-model="scope.row.telnum"></el-input>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="address" label="地址" align="center" width="200">
+                                <template slot-scope="scope">
+                                    <div v-if="!scope.row.isEdit">{{ scope.row.address }}</div>
+                                    <div v-else>
+                                        <el-input v-model="scope.row.address"></el-input>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="skillid" label="技能" align="center">
+                                <template slot-scope="scope">
+                                    <div v-if="!scope.row.isEdit">{{ scope.row.skillid }}</div>
+                                    <div v-else>
+                                        <el-select size="mini" v-model="scope.row.skillid" placeholder="请选择">
+                                            <el-option key="1" label="Java前端设计师" value="Java前端设计师"></el-option>
+                                            <el-option key="2" label="java后台工程师" value="java后台工程师"></el-option>
+                                            <el-option key="3" label="C#开发工程师" value="C#开发工程师"></el-option>
+                                        </el-select>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="status" label="状态" align="center" width="100">
+                                <template slot-scope="scope">
+                                    <div v-if="!scope.row.isEdit">{{  scope.row.status=='0'?'在职':'离职'}}</div>
+                                    <div v-else>
+                                        <el-select size="mini" v-model="scope.row.status" placeholder="请选择">
+                                            <el-option key="1" label="在职" value="0"></el-option>
+                                            <el-option key="2" label="离职" value="1"></el-option>
+                                        </el-select>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="操作" fixed="right" align="center">
+                                <template slot-scope="scope">
+                                    <el-button
+                                        type="text"
+                                        :icon="scope.row.isEdit ? 'el-icon-check' : 'el-icon-edit-outline'"
+                                        @click="userEdit(scope.$index, scope.row)"
+                                    >{{scope.row.isEdit ? '完成' : '编辑'}}</el-button>
+                                    <el-button
+                                        type="text"
+                                        icon="el-icon-delete"
+                                        class="red"
+                                        @click="userDelete(scope.$index, scope.row)"
+                                    >删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="companyName" label="" align="left">
+                    <template slot-scope="scope">
+                        <div>{{ scope.row.companyName }}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="" width="180" align="right">
+                    <template slot-scope="scope">
+                        <el-button
+                            type="text"
+                            icon="el-icon-plus"
+                            class="green"
+                            @click="userAdd(scope.$index, scope.row)"
+                        >添加</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+
+
+            <!-- <el-table
                 :data="tableData"
                 stripe
                 class="table"
@@ -77,7 +183,7 @@
                         >删除</el-button>
                     </template>
                 </el-table-column>
-            </el-table>
+            </el-table> -->
             <div class="pagination">
                 <el-pagination
                     background
@@ -156,7 +262,77 @@ export default {
                 pageIndex: 1,
                 pageSize: 10
             },
-            tableData: [],
+            tableData: [
+                {
+                    companyName:'炎石',
+                    companyid:'11',
+                    children:[
+                        {
+                            wxuserid:'1',
+                            userName:'李世赢',
+                            sex:'0',
+                            telnum:'12345678',
+                            address:'石家庄正定',
+                            companyid:'11',
+                            skillid:'Java前端设计师',
+                            createtime:'2020-10-01',
+                            status:'0'
+                        },{
+                            wxuserid:'2',
+                            userName:'许浩峰',
+                            sex:'0',
+                            telnum:'12345678',
+                            address:'石家庄保定',
+                            companyid:'11',
+                            skillid:'Java前端设计师',
+                            createtime:'2020-05-01',
+                            status:'0'
+                        }
+                    ]
+                },{
+                    companyName:'崇达',
+                    companyid:'22',
+                    children:[
+                        {
+                            wxuserid:'3',
+                            userName:'崔媛媛',
+                            sex:'1',
+                            telnum:'12345678',
+                            address:'石家庄正定',
+                            companyid:'22',
+                            skillid:'C#开发工程师',
+                            createtime:'2020-04-01',
+                            status:'0'
+                        },{
+                            wxuserid:'4',
+                            userName:'王鸣',
+                            sex:'0',
+                            telnum:'12345678',
+                            address:'石家庄赵县',
+                            companyid:'22',
+                            skillid:'C#开发工程师',
+                            createtime:'2020-02-01',
+                            status:'0'
+                        }
+                    ]
+                },{
+                    companyName:'汉佳',
+                    companyid:'33',
+                    children:[
+                        {
+                            wxuserid:'5',
+                            userName:'李萌',
+                            sex:'1',
+                            telnum:'12345678',
+                            address:'石家庄正定',
+                            companyid:'33',
+                            skillid:'C#开发工程师',
+                            createtime:'2010-04-01',
+                            status:'0'
+                        }
+                    ]
+                }
+            ],
             multipleSelection: [],
             delList: [],
             editVisible: false,
@@ -237,7 +413,7 @@ export default {
     methods: {
         // 获取 easy-mock 的模拟数据
         getData() {
-            this.tableData = this.data1.list;
+            // this.tableData = this.data1.list;
             this.pageTotal = this.data1.pageTotal || 50;
         },
         // 触发搜索按钮
@@ -299,41 +475,114 @@ export default {
             getUseinfo().then(data=>{
                 console.log(data)
             })
+        },
+        //添加人员
+        userAdd(index,row){
+            console.log(index,row)
+            let $table = this.$refs.userTbale
+            let can = true
+            let newUser = {
+                wxuserid:'00',
+                userName:'',
+                sex:'0',
+                telnum:'',
+                address:'',
+                companyid:row.companyid,
+                skillid:'',
+                createtime:'',
+                status:'0' ,
+                isEdit:true,
+                newEdit:true
+            }
+            if(row.children){
+                row.children.map(item=>{
+                    if(item.wxuserid=="00"){
+                        can = false
+                    }
+                })
+                if(can){
+                    row.children.unshift(newUser)
+                }else{
+                  this.$message.warning('请先保存已添加人员!');  
+                }
+            }else{
+                 this.tableData[index].children = []
+                this.tableData[index].children.unshift(newUser)
+            }
+            $table.toggleRowExpansion(row,true)
+        },
+        //人员编辑
+        userEdit(index,row){
+            if (row.isEdit) {
+                this.$delete(row, 'isEdit')
+                this.$delete(row, 'newEdit')
+            } else {
+                this.$set(row, 'isEdit', true);
+            }
+        },
+        //人员删除
+        userDelete(index,row){
+            let idx = 0
+            this.tableData.map((inx,item)=>{
+                if(item.companyid==row.companyid){
+                    idx = inx
+                }
+            })
+            // 二次确认删除
+            this.$confirm('确定要删除吗？', '提示', {
+                type: 'warning'
+            })
+            .then(() => {
+                this.tableData[idx].children.splice(index, 1);
+                this.$message.success('删除成功');
+            })
+            .catch(() => {});
+
         }
     }
 }
 </script>
 
-<style scoped>
-.handle-box {
+<style>
+.userBaseInfo .handle-box {
     margin-bottom: 20px;
 }
 
-.handle-select {
+.userBaseInfo .handle-select {
     width: 120px;
 }
 
-.handle-input {
+.userBaseInfo .handle-input {
     width: 220px;
     display: inline-block;
 }
-.table {
+.userBaseInfo .table {
     width: 100%;
     font-size: 14px;
 }
-.red {
+.userBaseInfo .red {
     color: #ff0000;
 }
-.mr10 {
+.userBaseInfo .mr10 {
     margin-right: 15px;
 }
-.table-td-thumb {
+.userBaseInfo .table-td-thumb {
     display: block;
     margin: auto;
     width: 40px;
     height: 40px;
 }
-.el-range-editor--small.el-input__inner{
+.userBaseInfo .el-range-editor--small.el-input__inner{
     width:220px;
+}
+.userBaseInfo .el-table__expanded-cell{
+    padding:0;
+    border:0 none;
+}
+.userBaseInfo .el-table td div{
+    border-top:none;
+}
+.userBaseInfo .el-date-editor.el-input,.userBaseInfo .el-date-editor.el-input__inner{
+    width:130px
 }
 </style>
