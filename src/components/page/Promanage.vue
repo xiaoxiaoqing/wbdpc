@@ -489,7 +489,7 @@ export default {
                 worker:"",
                 rangeTime:"",
                 taskDescrip:"",
-                taskState:"",
+                taskState:"1",
                 id:"00",
                 rowIdx :index,
                 isEdit:true
@@ -542,11 +542,11 @@ export default {
             this.$confirm('确定要删除吗？', '提示', {
                 type: 'warning'
             })
-                .then(() => {
-                    this.tableData[idx].children.splice(index, 1);
-                    this.$message.success('删除成功');
-                })
-                .catch(() => {});
+            .then(() => {
+                this.tableData[idx].children.splice(index, 1);
+                this.$message.success('删除成功');
+            })
+            .catch(() => {});
         },
         //新建项目
         handleAdd(){

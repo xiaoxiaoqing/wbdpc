@@ -6,6 +6,7 @@ import Home from '@/components/common/Home'
 import Dashboard from '@/components/page/Dashboard.vue'//系统首页消息处理中心
 import Promanage from '@/components/page/Promanage.vue'//项目管理
 import Userinfo from '@/components/page/Userinfo.vue'//人员信息
+import PersonAllotment from '@/components/page/PersonAllotment.vue'//人员分配
 Vue.use(Router)
 
 export default new Router({
@@ -34,6 +35,11 @@ export default new Router({
           path: '/userinfo',
           component: Userinfo,
           meta: { title: '人员信息' }
+        },
+        {
+          path: '/personallotment',
+          component: PersonAllotment,
+          meta: { title: '人员分配' }
         },
       ]
     },{
