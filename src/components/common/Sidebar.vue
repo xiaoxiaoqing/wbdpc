@@ -78,8 +78,8 @@ export default {
                             title: '项目列表'
                         },
                         {
-                            icon: 'el-icon-odometer',
-                            index: 'promanage2',
+                            icon: 'el-icon-news',
+                            index: 'task',
                             title: '任务分配'
                         },
                         {
@@ -101,7 +101,7 @@ export default {
                         },
                         {
                             icon: 'el-icon-star-on',
-                            index: 'userinfo2',
+                            index: 'grade',
                             title: '评级信息'
                         }
                     ]
