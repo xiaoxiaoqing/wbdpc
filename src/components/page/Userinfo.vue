@@ -71,10 +71,48 @@
                 prop="userName"
                 label="人员姓名"
                 width="100"
+                fixed
                 align="center"
               >
                 <template slot-scope="scope">
                   <div v-if="!scope.row.newEdit">{{ scope.row.userName }}</div>
+                  <div v-else>
+                    <el-input v-model="scope.row.userName"></el-input>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="school"
+                label="学校"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <div v-if="!scope.row.newEdit">{{ scope.row.school }}</div>
+                  <div v-else>
+                    <el-input v-model="scope.row.userName"></el-input>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="education"
+                label="学历"
+                width="100"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <div v-if="!scope.row.newEdit">{{ scope.row.education }}</div>
+                  <div v-else>
+                    <el-input v-model="scope.row.userName"></el-input>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="learning"
+                label="学习经历"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <div v-if="!scope.row.newEdit">{{ scope.row.learning }}</div>
                   <div v-else>
                     <el-input v-model="scope.row.userName"></el-input>
                   </div>
@@ -144,7 +182,7 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column prop="skillid" label="技能" align="center">
+              <el-table-column prop="skillid" label="技能" align="center" width="130">
                 <template slot-scope="scope">
                   <div v-if="!scope.row.isEdit">{{ scope.row.skillid }}</div>
                   <div v-else>
@@ -194,7 +232,7 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column label="操作" fixed="right" align="center">
+              <el-table-column label="操作" fixed="right" align="center" width="150"> 
                 <template slot-scope="scope">
                   <el-button
                     type="text"
