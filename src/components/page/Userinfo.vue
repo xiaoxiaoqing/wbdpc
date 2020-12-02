@@ -46,6 +46,9 @@
         <el-button type="primary" icon="el-icon-search" @click="handleSearch"
           >搜索</el-button
         >
+        <el-button type="primary" icon="el-icon-search" @click="handleSearch"
+          >新增</el-button
+        >
       </div>
       <el-table
         :data="tableData"
@@ -314,7 +317,7 @@
                     </template>
                 </el-table-column>
             </el-table> -->
-      <div class="pagination">
+      <!-- <div class="pagination">
         <el-pagination
           background
           layout="total, prev, pager, next"
@@ -323,7 +326,7 @@
           :total="pageTotal"
           @current-change="handlePageChange"
         ></el-pagination>
-      </div>
+      </div> -->
     </div>
 
     <!-- 编辑弹出框 -->
