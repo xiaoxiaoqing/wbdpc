@@ -9,6 +9,7 @@ import Userinfo from '@/components/page/Userinfo.vue'//人员信息
 import Grade from '@/components/page/Grade.vue'
 import Task from '@/components/page/Task.vue'
 
+import PersonAllotment from '@/components/page/PersonAllotment.vue'//人员分配
 Vue.use(Router)
 
 export default new Router({
@@ -48,6 +49,11 @@ export default new Router({
           component: Task,
           meta: { title: '任务分配' }
         },
+        {
+          path: '/personallotment',
+          component: PersonAllotment,
+          meta: { title: '人员分配' }
+        }
       ]
     },{
       path:'/login',

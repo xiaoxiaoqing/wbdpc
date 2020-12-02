@@ -84,7 +84,7 @@ export default {
                         },
                         {
                             icon: 'el-icon-user-solid',
-                            index: 'promanage3',
+                            index: 'PersonAllotment',
                             title: '人员分配'
                         }
                     ]
