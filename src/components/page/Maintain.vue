@@ -1,5 +1,5 @@
 <template>
-    <div class="container project">
+    <div class="container maintain">
         <div class="handle-box">
             <label for="">业务方向</label>
             <el-select v-model="query.entrydirection" filterable placeholder="请选择" class="handle-select mr10">
@@ -587,8 +587,7 @@ export default {
     .el-table.insideTable th{
         background:#ecf5ff !important;
     }
-    .el-table__expanded-cell{
-        padding:0;
+    .maintain .el-table__expanded-cell{
         background:#ebeef5;
     }
     .addProject.addlay>div:nth-child(2){

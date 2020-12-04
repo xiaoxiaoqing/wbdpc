@@ -6,8 +6,10 @@ import Home from '@/components/common/Home'
 import Dashboard from '@/components/page/Dashboard.vue'//系统首页消息处理中心
 import Promanage from '@/components/page/Promanage.vue'//项目管理
 import Userinfo from '@/components/page/Userinfo.vue'//人员信息
+import Maintain from '@/components/page/Maintain.vue'//项目维护
 import Grade from '@/components/page/Grade.vue'
 import Task from '@/components/page/Task.vue'
+
 
 import PersonAllotment from '@/components/page/PersonAllotment.vue'//人员分配
 Vue.use(Router)
@@ -53,6 +55,11 @@ export default new Router({
           path: '/personallotment',
           component: PersonAllotment,
           meta: { title: '人员分配' }
+        },
+        {
+          path: '/maintain',
+          component: Maintain,
+          meta: { title: '项目维护' }
         }
       ]
     },{
