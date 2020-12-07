@@ -227,6 +227,7 @@
       methods: {
         handleChange(value, direction, movedKeys) {
           console.log(value, direction, movedKeys);
+          console.log('test')
         }
       },
       getHeight() {
@@ -234,7 +235,7 @@
 
       }
     },
-    created() {
+    created() { 
       this.getHeight()
     }
   }
