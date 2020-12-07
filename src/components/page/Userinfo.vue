@@ -46,6 +46,9 @@
         <el-button type="primary" icon="el-icon-search" @click="handleSearch"
           >搜索</el-button
         >
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addCompany"
+          >新增</el-button
+        >
       </div>
       <el-table
         :data="tableData"
@@ -57,7 +60,7 @@
       >
         <el-table-column type="expand" prop="children">
           <template slot-scope="scope">
-            <el-table :data="scope.row.children" size="mini" border>
+            <el-table :data="scope.row.children" size="mini" border class="usertable">
               <el-table-column
                 label="序号"
                 type="index"
@@ -270,6 +273,13 @@
               @click="userAdd(scope.$index, scope.row)"
               >添加</el-button
             >
+            <el-button
+              type="text"
+              icon="el-icon-delete"
+              class="green"
+              @click="companyDelete(scope.$index, scope.row)"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -314,73 +324,18 @@
                     </template>
                 </el-table-column>
             </el-table> -->
-      <div class="pagination">
-        <el-pagination
-          background
-          layout="total, prev, pager, next"
-          :current-page="query.pageIndex"
-          :page-size="query.pageSize"
-          :total="pageTotal"
-          @current-change="handlePageChange"
-        ></el-pagination>
-      </div>
+     
     </div>
 
-    <!-- 编辑弹出框 -->
-    <el-dialog title="人员详情" :visible.sync="editVisible" width="50%">
+    <!-- 新增弹出框 -->
+    <el-dialog title="新增公司" :visible.sync="addVisible" width="50%">
       <el-form :inline="true" ref="form" :model="form" label-width="70px">
-        <el-form-item label="姓名" style="width: 45%">
-          <label>{{ form.name }}</label>
-        </el-form-item>
-        <el-form-item label="性别">
-          <label>{{ form.sex == 0 ? "男" : "女" }}</label>
-        </el-form-item>
-        <el-form-item label="住址" style="width: 45%">
-          <label>{{ form.address }}</label>
-        </el-form-item>
-        <el-form-item label="电话">
-          <label>{{ form.money }}</label>
-        </el-form-item>
-        <el-form-item label="所属公司" style="width: 45%">
-          <label>{{ form.companyName }}</label>
-        </el-form-item>
-        <el-form-item label="入所时间">
-          <label>{{ form.date }}</label>
-        </el-form-item>
-        <el-form-item label="职位" style="width: 45%">
-          <label>{{ form.position }}</label>
-        </el-form-item>
-        <el-form-item label="评级时间">
-          <span>{{ form.ratingTime }}</span>
-        </el-form-item>
-        <el-form-item label="状态" style="width: 45%">
-          <el-select
-            v-model="form.state"
-            placeholder="请选择"
-            class="handle-select mr10"
-          >
-            <el-option key="1" label="空闲" value="空闲"></el-option>
-            <el-option key="2" label="在项" value="在项"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="级别">
-          <el-select
-            v-model="form.level"
-            placeholder="请选择"
-            class="handle-select mr10"
-          >
-            <el-option key="1" label="初级下" value="0"></el-option>
-            <el-option key="2" label="初级中" value="1"></el-option>
-            <el-option key="3" label="初级上" value="2"></el-option>
-            <el-option key="4" label="中级下" value="3"></el-option>
-            <el-option key="5" label="中级中" value="4"></el-option>
-            <el-option key="6" label="中级上" value="5"></el-option>
-            <el-option key="7" label="高级" value="6"></el-option>
-          </el-select>
+        <el-form-item label="公司名称" style="width: 45%">
+          <el-input v-model="form.companys"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="editVisible = false">取 消</el-button>
+        <el-button @click="addVisible = false">取 消</el-button>
         <el-button type="primary" @click="saveEdit()">确 定</el-button>
       </span>
     </el-dialog>
@@ -476,7 +431,7 @@ export default {
       ],
       multipleSelection: [],
       delList: [],
-      editVisible: false,
+      addVisible: false,
       pageTotal: 0,
       form: {},
       idx: -1,
@@ -500,55 +455,6 @@ export default {
         },
       ],
       companyName: "",
-      data1: {
-        list: [
-          {
-            id: 1,
-            name: "张三",
-            money: 123456789,
-            sex: 0,
-            position: "前端",
-            address: "广东省东莞市长安镇",
-            state: "空闲",
-            date: "2019-11-1",
-            thumb: "https://lin-xin.gitee.io/images/post/wms.png",
-          },
-          {
-            id: 2,
-            name: "李四",
-            sex: 0,
-            money: 456123456,
-            position: "前端",
-            address: "广东省广州市白云区",
-            state: "空闲",
-            date: "2019-10-11",
-            thumb: "https://lin-xin.gitee.io/images/post/node3.png",
-          },
-          {
-            id: 3,
-            name: "王五",
-            sex: 1,
-            money: 123456789,
-            position: "后台",
-            address: "湖南省长沙市",
-            state: "在项",
-            date: "2019-11-11",
-            thumb: "https://lin-xin.gitee.io/images/post/parcel.png",
-          },
-          {
-            id: 4,
-            name: "赵六",
-            sex: 1,
-            money: 123456000,
-            position: "后台",
-            address: "福建省厦门市鼓浪屿",
-            state: "在项",
-            date: "2019-10-20",
-            thumb: "https://lin-xin.gitee.io/images/post/notice.png",
-          },
-        ],
-        pageTotal: 4,
-      },
     };
   },
   created() {
@@ -560,6 +466,25 @@ export default {
     getData() {
       // this.tableData = this.data1.list;
       this.pageTotal = this.data1.pageTotal || 50;
+    },
+    //新增公司
+    addCompany(){
+      this.form = {}
+      this.addVisible = true; 
+    },
+    // 保存编辑
+    saveEdit() {
+      let obj = {
+        companyName: this.form.companys,
+        companyid: "00",
+        children:[]
+      }
+      if(this.form.companys){
+        this.tableData.unshift(obj)
+        this.addVisible = false;
+      }else{
+        this.$message.warning("请填写公司名称");
+      }
     },
     // 触发搜索按钮
     handleSearch() {
@@ -584,32 +509,13 @@ export default {
         })
         .catch(() => {});
     },
-    // 多选操作
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    },
-    delAllSelection() {
-      const length = this.multipleSelection.length;
-      let str = "";
-      this.delList = this.delList.concat(this.multipleSelection);
-      for (let i = 0; i < length; i++) {
-        str += this.multipleSelection[i].name + " ";
-      }
-      this.$message.error(`删除了${str}`);
-      this.multipleSelection = [];
-    },
     // 编辑操作
     handleEdit(index, row) {
       this.idx = index;
       this.form = row;
       this.editVisible = true;
     },
-    // 保存编辑
-    saveEdit() {
-      console.log(this.form, "lllll");
-      this.editVisible = false;
-      this.$set(this.tableData, this.idx, this.form);
-    },
+    
     // 分页导航
     handlePageChange(val) {
       this.$set(this.query, "pageIndex", val);
@@ -656,6 +562,17 @@ export default {
       }
       $table.toggleRowExpansion(row, true);
     },
+    //公司删除
+    companyDelete(index,row){
+      this.$confirm("删除公司，其公司人员也将删除，确定要删除吗？", "提示", {
+        type: "warning",
+      })
+        .then(() => {
+          this.tableData.splice(index, 1);
+          this.$message.success("删除成功");
+        })
+        .catch(() => {});
+    },
     //人员编辑
     userEdit(index, row) {
       if (row.isEdit) {
@@ -695,7 +612,9 @@ export default {
 .userBaseInfo .handle-select {
   width: 120px;
 }
-
+.el-table.usertable th{
+  background:#ecf5ff !important;
+}
 .userBaseInfo .handle-input {
   width: 220px;
   display: inline-block;

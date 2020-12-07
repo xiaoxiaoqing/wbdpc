@@ -73,6 +73,10 @@ export default {
                     title: '项目管理',
                     subs: [
                       {
+                            icon: 'el-icon-suitcase',
+                            index: 'maintain',
+                            title: '项目维护'
+                      },{
                             icon: 'el-icon-odometer',
                             index: 'promanage',
                             title: '项目列表'
