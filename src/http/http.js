@@ -1,7 +1,7 @@
 import axios from 'axios'
 // 进行一些全局配置
 // 公共路由(网络请求地址)
-axios.defaults.baseURL = 'http://192.168.43.203:8080';
+axios.defaults.baseURL = 'http://192.168.43.243:8080';
 // 请求响应超时时间
 axios.defaults.timeout = 5000;
 

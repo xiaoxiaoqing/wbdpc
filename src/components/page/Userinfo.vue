@@ -1,12 +1,5 @@
 <template>
   <div class="userBaseInfo">
-    <!-- <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 外包人员信息
-                </el-breadcrumb-item>
-            </el-breadcrumb>
-        </div> -->
     <div class="container">
       <div class="handle-box">
         <label for="">公司名称</label>
@@ -54,10 +47,10 @@
         :data="tableData"
         ref="userTbale"
         class="table"
-        max-height="500"
         :show-header="false"
+        @row-click="toogleExpand"
         header-cell-class-name="table-header"
-      >
+       >
         <el-table-column type="expand" prop="children">
           <template slot-scope="scope">
             <el-table :data="scope.row.children" size="mini" border class="usertable">
@@ -68,56 +61,18 @@
                 fixed
                 align="center"
               >
-                           
               </el-table-column>
               <el-table-column
-                prop="userName"
+                prop="name"
                 label="人员姓名"
                 width="100"
                 fixed
                 align="center"
               >
                 <template slot-scope="scope">
-                  <div v-if="!scope.row.newEdit">{{ scope.row.userName }}</div>
+                  <div v-if="!scope.row.newEdit">{{ scope.row.name }}</div>
                   <div v-else>
-                    <el-input v-model="scope.row.userName"></el-input>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="school"
-                label="学校"
-                align="center"
-              >
-                <template slot-scope="scope">
-                  <div v-if="!scope.row.newEdit">{{ scope.row.school }}</div>
-                  <div v-else>
-                    <el-input v-model="scope.row.userName"></el-input>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="education"
-                label="学历"
-                width="100"
-                align="center"
-              >
-                <template slot-scope="scope">
-                  <div v-if="!scope.row.newEdit">{{ scope.row.education }}</div>
-                  <div v-else>
-                    <el-input v-model="scope.row.userName"></el-input>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="learning"
-                label="学习经历"
-                align="center"
-              >
-                <template slot-scope="scope">
-                  <div v-if="!scope.row.newEdit">{{ scope.row.learning }}</div>
-                  <div v-else>
-                    <el-input v-model="scope.row.userName"></el-input>
+                    <el-input v-model="scope.row.name"></el-input>
                   </div>
                 </template>
               </el-table-column>
@@ -172,19 +127,6 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column
-                prop="address"
-                label="地址"
-                align="center"
-                width="200"
-              >
-                <template slot-scope="scope">
-                  <div v-if="!scope.row.isEdit">{{ scope.row.address }}</div>
-                  <div v-else>
-                    <el-input v-model="scope.row.address"></el-input>
-                  </div>
-                </template>
-              </el-table-column>
               <el-table-column prop="skillid" label="技能" align="center" width="130">
                 <template slot-scope="scope">
                   <div v-if="!scope.row.isEdit">{{ scope.row.skillid }}</div>
@@ -210,6 +152,56 @@
                         value="C#开发工程师"
                       ></el-option>
                     </el-select>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="address"
+                label="地址"
+                align="center"
+                width="200"
+              >
+                <template slot-scope="scope">
+                  <div v-if="!scope.row.isEdit">{{ scope.row.address?scope.row.address:'-' }}</div>
+                  <div v-else>
+                    <el-input v-model="scope.row.address"></el-input>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="school"
+                label="学校"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <div v-if="!scope.row.isEdit">{{ scope.row.school?scope.row.school: '-' }}</div>
+                  <div v-else>
+                    <el-input v-model="scope.row.school"></el-input>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="record"
+                label="学历"
+                width="100"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <div v-if="!scope.row.isEdit">{{ scope.row.record?scope.row.record:'-' }}</div>
+                  <div v-else>
+                    <el-input v-model="scope.row.record"></el-input>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="experience"
+                label="学习经历"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <div v-if="!scope.row.isEdit">{{ scope.row.experience?scope.row.experience:'-' }}</div>
+                  <div v-else>
+                    <el-input v-model="scope.row.experience"></el-input>
                   </div>
                 </template>
               </el-table-column>
@@ -261,7 +253,7 @@
         </el-table-column>
         <el-table-column prop="companyName" label="" align="left">
           <template slot-scope="scope">
-            <div>{{ scope.row.companyName }}</div>
+            <div>{{ scope.row.name }}</div>
           </template>
         </el-table-column>
         <el-table-column label="" width="180" align="right">
@@ -270,63 +262,20 @@
               type="text"
               icon="el-icon-plus"
               class="green"
-              @click="userAdd(scope.$index, scope.row)"
+              @click.stop="userAdd(scope.$index, scope.row)"
               >添加</el-button
             >
             <el-button
               type="text"
               icon="el-icon-delete"
               class="green"
-              @click="companyDelete(scope.$index, scope.row)"
+              @click.stop="companyDelete(scope.$index, scope.row)"
               >删除</el-button
             >
           </template>
         </el-table-column>
       </el-table>
-
-      <!-- <el-table
-                :data="tableData"
-                stripe
-                class="table"
-                header-cell-class-name="table-header"
-            >
-                <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-                <el-table-column prop="sex" label="性别" align="center">
-                    <template slot-scope="scope">{{scope.row.sex==0?'男':'女'}}</template>
-                </el-table-column>
-                <el-table-column label="电话" align="center">
-                    <template slot-scope="scope">{{scope.row.money}}</template>
-                </el-table-column>
-                <el-table-column prop="date" label="入所时间" align="center"></el-table-column>
-                <el-table-column prop="position" label="职位" align="center"></el-table-column>
-                <el-table-column label="状态" align="center">
-                    <template slot-scope="scope">
-                        <el-tag
-                            :type="scope.row.state==='空闲'?'success':(scope.row.state==='在项'?'danger':'')"
-                        >{{scope.row.state}}</el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="level" label="级别" align="center"></el-table-column>
-                <el-table-column prop="ratingTime" label="评级时间" align="center"></el-table-column>
-                <el-table-column label="操作" width="180" align="center">
-                    <template slot-scope="scope">
-                        <el-button
-                            type="text"
-                            icon="el-icon-edit-outline"
-                            @click="handleEdit(scope.$index, scope.row)"
-                        >编辑</el-button>
-                        <el-button
-                            type="text"
-                            icon="el-icon-delete"
-                            class="red"
-                            @click="handleDelete(scope.$index, scope.row)"
-                        >删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table> -->
-     
     </div>
-
     <!-- 新增弹出框 -->
     <el-dialog title="新增公司" :visible.sync="addVisible" width="50%">
       <el-form :inline="true" ref="form" :model="form" label-width="70px">
@@ -341,9 +290,8 @@
     </el-dialog>
   </div>
 </template>
-
 <script>
-import { getUseinfo } from "@/http/index.js"; // 导入我们的api接口
+import { getUseinfo } from "@/http/index.js";
 export default {
   name: "basetable",
   data() {
@@ -354,81 +302,7 @@ export default {
         pageIndex: 1,
         pageSize: 10,
       },
-      tableData: [
-        {
-          companyName: "炎石",
-          companyid: "11",
-          children: [
-            {
-              wxuserid: "1",
-              userName: "李世赢",
-              sex: "0",
-              telnum: "12345678",
-              address: "石家庄正定",
-              companyid: "11",
-              skillid: "Java前端设计师",
-              createtime: "2020-10-01",
-              status: "0",
-            },
-            {
-              wxuserid: "2",
-              userName: "许浩峰",
-              sex: "0",
-              telnum: "12345678",
-              address: "石家庄保定",
-              companyid: "11",
-              skillid: "Java前端设计师",
-              createtime: "2020-05-01",
-              status: "0",
-            },
-          ],
-        },
-        {
-          companyName: "崇达",
-          companyid: "22",
-          children: [
-            {
-              wxuserid: "3",
-              userName: "崔媛媛",
-              sex: "1",
-              telnum: "12345678",
-              address: "石家庄正定",
-              companyid: "22",
-              skillid: "C#开发工程师",
-              createtime: "2020-04-01",
-              status: "0",
-            },
-            {
-              wxuserid: "4",
-              userName: "王鸣",
-              sex: "0",
-              telnum: "12345678",
-              address: "石家庄赵县",
-              companyid: "22",
-              skillid: "C#开发工程师",
-              createtime: "2020-02-01",
-              status: "0",
-            },
-          ],
-        },
-        {
-          companyName: "汉佳",
-          companyid: "33",
-          children: [
-            {
-              wxuserid: "5",
-              userName: "李萌",
-              sex: "1",
-              telnum: "12345678",
-              address: "石家庄正定",
-              companyid: "33",
-              skillid: "C#开发工程师",
-              createtime: "2010-04-01",
-              status: "0",
-            },
-          ],
-        },
-      ],
+      tableData: [],
       multipleSelection: [],
       delList: [],
       addVisible: false,
@@ -455,17 +329,29 @@ export default {
         },
       ],
       companyName: "",
+      expands: []
     };
   },
   created() {
     this.getData();
-    this.getdata();
   },
   methods: {
-    // 获取 easy-mock 的模拟数据
-    getData() {
-      // this.tableData = this.data1.list;
-      this.pageTotal = this.data1.pageTotal || 50;
+    toogleExpand(row) {
+      let $table = this.$refs.userTbale
+      this.tableData.map((item) => {
+        if (row.companyid != item.companyid) {
+          $table.toggleRowExpansion(item, false)
+        } else {
+          if (this.expands.indexOf(row.companyid) < 0) {
+              this.expands.shift();
+              this.expands.push(row.companyid);
+              $table.toggleRowExpansion(item, true)
+            } else {
+              this.expands = []
+              $table.toggleRowExpansion(item, false)
+            }
+        }
+      })
     },
     //新增公司
     addCompany(){
@@ -522,9 +408,10 @@ export default {
       this.getData();
     },
     //获取数据
-    getdata() {
-      getUseinfo().then((data) => {
-        console.log(data);
+    getData() {
+      getUseinfo().then((res) => {
+        this.tableData =  res.data
+        console.log(this.tableData)
       });
     },
     //添加人员

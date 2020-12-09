@@ -7,7 +7,7 @@
             background-color="#324157"
             text-color="#bfcbd9"
             active-text-color="#20a0ff"
-            unique-opened
+            :unique-opened="false"
             router
         >
             <template v-for="item in items">
